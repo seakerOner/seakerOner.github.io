@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>70 year old mistake</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+<body bgcolor="black" text="white">
+    <section>
+    <h1 class="hero-header">70 years old sin in Computing</h1>
+    <pre style="text-align: center;">
+  ____________________   _____    ____  __._____________________ 
+ /   _____/\_   _____/  /  _  \  |    |/ _|\_   _____/\______   \
+ \_____  \  |    __)_  /  /_\  \ |      <   |    __)_  |       _/
+ /        \ |        \/    |    \|    |  \  |        \ |    |   \
+/_______  //_______  /\____|__  /|____|__ \/_______  / |____|_  /
+        \/         \/         \/         \/        \/         \/ 
+    </pre>
+    </section>
+
+    <br>
+
+    <section style="letter-spacing: 1px;">
+        In my search for understanding in the world of computing I found a curious decision that was made
+        back in 1957 and it still propagates to this present day programming. And for now I shall consider it 
+        a 70 year old sin in computing. <br>
+        The rest of this text should not be considered an "attack" on modern programming languages and it's ideologies.
+        But simply observations from a different perspective, there is no right or wrong answer here; Just trade offs. Ultimaly
+        these topics must be discussed for further development of our control over the machine, minimize errors and
+        increase simplicity.<br>
+        <br>
+        Back in the day when computing was done manually with 0's and 1's, as you might expect this was a tiresome method if you 
+        wanted to do real programs. Naturally, we decided to associate human readable representations to those machine operations 
+        to ease development, the so called <i>assembly language</i>. Great! <b>Now we have all needed right?</b> <i>No</i>. 
+        We later found out aswell that a lot of operations repeat themselves or even multiple identical instructions, because
+        of that we created the <i>macro assembler</i>, simply a more complicated assembler that could accept special names
+        ("macros") and execute X number of instructions represented by said name. <br>
+        <br>
+        The major point of this advancement was the decoupling of linear correspondence between source code and the resulting
+        machine instructions. Most believe this to be an actual advantage but it gives more restrictions 
+        than freedom.<br>
+        Because programs aren't that simple. There is conditionals statments, loops and branching (you will find in assemblers this functionality to be called "jump instructions" or on other languages called "GO TO" commands).Mixing these concepts 
+        in a naive way creates what is dominated "spaghetti code". <br>
+        To reduce the "spaghetti" a new trend emerged. <i>Modular programming</i>; the new hot trend introducing subroutines, the concept is divinding a problem into smaller problems to reduce the "spaguetti" situation. Again, this has many 
+        disavantages: <br>
+
+        <ul>
+            <li>Saving registers before jumping to the subroutine and restoring them afterwards</li>
+            <li>The invisble code needed to pass parameters to and from the subroutine</li>
+            <li>Subroutines mandate to be invoked in a certain way and even more strict how you pass data to and from them</li>
+            <li>In consequence of the last point, to test them independently you need a special testing
+                program to invoke them</li>
+        </ul>
+        Note: In some languages subroutines may be called functions, methods, etc... <br>
+        <br>
+        With all this contraints Engineers found that planning was needed, planning an entire project became the norm since 
+        unexpected changes were/are hard to apply. <i><b>But interestingly at the time Enginners didn't know Humans are not good 
+        at predicting the future!</b></i> <b>(Include sarcasm here)</b> <br>
+        <br>
+        All this characteristics were inherited by languages like FORTRAN and BASIC, consequently languages like C and to our present day languages. Most pain points for Engineers today are testing, refactoring and overall maintainability of programs;
+        With these pain points Software has been slowly decreasing quality with the increased overhead of said points. 
+        Also a lot technnical problems like UB (undefined behavior) and accidental complexity stem from the same root problem.<br>
+        <br>
+        Hopefully you already found a pattern here...<br><br><b><i>Data flow became the structural pillar of programs</i></b>
+        <br><br>
+        Once the data flow became the structural pillar of programs, a shift happened how we reason about software. Programs  
+        started to be described of <i>how data moves between named spaces</i> instead of describing <i>transformations</i>.<br>
+        Subroutines, and later functions, methods and procedures formalized this idea. Each unit of code became defined not by what it <i>does</i>, but by:
+        <ul>
+            <li>what data it receives</li>
+            <li>how that data is represented</li>
+            <li>who owns it</li>
+            <li>how it must be returned</li>
+        </ul>
+
+        <i><b>But Seaker, isn't that a good thing?</b></i> In a naive way it sounds good, but introduces rigidity at the very
+        core of the system! Behavior became secondary to data contracts!!
+
+        <h3>Refactoring on a data-centric ideology</h3>
+        Refactoring usually is described as "changing the internal structure of code without changing it's behavior". But under data flow centric models refactoring is, sadly, rarely internal.<br>
+        Changing behavior in this paradigm means:
+        <ul>
+            <li>changing function signatures</li>
+            <li>reshaping structures</li>
+            <li>updating callers</li>
+            <li>renegotiating ownership</li>
+            <li>rewriting tests whose only job is to satisfy invocation rules</li>
+        </ul>
+        The irony is incredible: <br>
+        to make code "easier to maintain", we first make it <i>harder to change</i>. <br>
+        <br>
+        As systems grow, the effort require to refactor grows non-linearly, because the data flow is global, explicit and rigid.
+        A local idea becames a system-wide negotiation.
+
+        <h3>The hidden cost of explicit arguments</h3>
+        Explicit arguments truly feel precise and readable, but they encode decisions too early. <br>
+        Each argument fixes:
+        <ul>
+            <li>what matters</li>
+            <li>in what order</li>
+            <li>under what representation</li>
+            <li>and under what lifetime assumptions</li>
+        </ul>
+        The thing is... once these decisions are made, they  spread and become structural. The program no longer flows. <br>
+        <br>
+        Testing suffers too again. A subroutine cannot be tested in isolation unless it is invoked exactly as prescribed.
+        Behavior is inseparable from it's calling ritual.
+
+        <h3>A different perspective: transformation without identity</h3>
+        Languages like Forth take a different approach because there are no formal arguments, no signatures in a tradicional
+        sense and no persistent identity attached to data. <br>
+        Instead there is:
+        <ul>
+            <li>A stack</li>
+            <li>A sequence of transformations</li>
+        </ul>
+        Note: Forth also includes variables and what not, in Forth every paradigm is possible but in it's purest way this is the 
+        main concept <br>
+        <br>
+        Data flow is implicit! Words in Forth (functions) describe <i>what happens to data</i>, not how data is passed around.
+        <ul>
+            <li>Data does not have a name</li>
+            <li>It does not have an owner</li>
+            <li>It does not have a history</li>
+        </ul>
+        It simply exists long enough to be transformed and then disappears.<br>
+        Logically this reduces the space of possible errors.
+
+        <h3>Rust: enforcing discipline, not changing the premise</h3>
+        Rust is often presented as a solution to memory safety, but it does not reject the data centric model.<br>
+        On the contrary; It accepts it and imposes strict laws. <br>
+        <br>
+        Ownership, borrowing and lifetimes are mechanisms to police data identity over time. They are truly effective, 
+        but they also make data flow even more rigid. <br>
+        Refactoring in Rust is difficult not because the language is poorly designed, but because it takes data flow 
+        ideology seriously; and enforces it consistently. <br>
+        <ul>
+            <li><b>Safety is gained</b></li>
+            <li><b>Plasticity is lost</b></li>
+        </ul>
+        This is not a flaw. It's a trade-off. And something to keep in mind as the language seems to keep getting more adoption
+        on larger projects
+
+        <h3>Fewer states, fewer mistakes</h3>
+        The more explicit the data flow is, the larger the state space of the program.
+
+        <ul>
+            <li>Each reference multiplies possibilities.</li>
+            <li>Each lifetime introduces temporal constraints</li>
+            <li>Each mutation creates new invalid intermediate states</li>
+        </ul>
+
+        In Forth like systems for example: 
+        <ul>
+            <li>the observable state is small</li>
+            <li>transformations are local</li>
+            <li>errors surface immediately</li>
+        </ul>
+        There are fewer ways to be wrong overall.
+
+        <h3>A 70 year old assumption</h3>
+        For roughly 70 years, computing has been built on the assumption that:<br>
+        <br>
+        <b>programs should be structured around the movement and ownership of data</b><br>
+        <br>
+        This assumption gave us powerful abstractions, but also increasing complexity, fragility and resistance to change.<br>
+        Perhaps the real mistake was not technical, but ideological. <br>
+        Programs are not static models of the world. They are processes. <br>
+        And processes are often better described as <i>transformations</i>, not as carefully managed data pipelines.
+
+        <h3>Closing thoughts</h3>
+        This is in no way a call to abandon modern languages, nor a claim that one model is "correct".<br>
+        It is an invitation to question a long standing belief: <br>
+        that making data the center of the program necessarily leads to clarity and safety. <br>
+        <br>
+        Sometimes it leads to rigidity. <br>
+        Sometimes it creates the very errors we then spend decades trying to eliminate.<br>
+    </section>
+</body>
+</html>
