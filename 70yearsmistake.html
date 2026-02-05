@@ -9,7 +9,7 @@
 </head>
 <body bgcolor="black" text="white">
     <section>
-    <h1 class="hero-header">70 years old sin in Computing</h1>
+    <h1 class="hero-header">70 year old sin in Computing</h1>
     <pre style="text-align: center;">
   ____________________   _____    ____  __._____________________ 
  /   _____/\_   _____/  /  _  \  |    |/ _|\_   _____/\______   \
@@ -26,46 +26,44 @@
         In my search for understanding in the world of computing I found a curious decision that was made
         back in 1957 and it still propagates to this present day programming. And for now I shall consider it 
         a 70 year old sin in computing. <br>
-        The rest of this text should not be considered an "attack" on modern programming languages and it's ideologies.
-        But simply observations from a different perspective, there is no right or wrong answer here; Just trade offs. Ultimaly
+        The rest of this text should not be considered an "attack" on modern programming languages and it ideologies.
+        But simply observations from a different perspective, there is no right or wrong answer here; Just trade offs. Ultimately
         these topics must be discussed for further development of our control over the machine, minimize errors and
         increase simplicity.<br>
         <br>
         Back in the day when computing was done manually with 0's and 1's, as you might expect this was a tiresome method if you 
         wanted to do real programs. Naturally, we decided to associate human readable representations to those machine operations 
         to ease development, the so called <i>assembly language</i>. Great! <b>Now we have all we needed right?</b> <i>No</i>. 
-        We later found out aswell that a lot of operations repeat themselves or even multiple identical instructions, because
+        We later found out as well that a lot of operations repeat themselves or even multiple identical instructions, because
         of that we created the <i>macro assembler</i>, simply a more complicated assembler that could accept special names
         ("macros") and execute X number of instructions represented by said name. <br>
         <br>
         The major point of this advancement was the decoupling of linear correspondence between source code and the resulting
         machine instructions. Most believe this to be an actual advantage but it gives more restrictions 
         than freedom.<br>
-        Because programs aren't that simple. There is conditionals statments, loops and branching (you will find in assemblers this functionality to be called "jump instructions" or on other languages called "GO TO" commands).Mixing these concepts 
+        Because programs aren't that simple. There is conditionals statements, loops and branching (you will find in assemblers this functionality to be called "jump instructions" or on other languages called "GO TO" commands).Mixing these concepts 
         in a naive way creates what is dominated "spaghetti code". <br>
-        To reduce the "spaghetti" a new trend emerged. <i>Modular programming</i>; the new hot trend introducing subroutines, the concept is divinding a problem into smaller problems to reduce the "spaguetti" situation. Again, this has many 
+        To reduce the "spaghetti" a new trend emerged. <i>Modular programming</i>; the new hot trend introducing subroutines, the concept is dividing a problem into smaller problems to reduce the "spaghetti" situation. Again, this has many 
         disavantages: <br>
 
         <ul>
             <li>Saving registers before jumping to the subroutine and restoring them afterwards</li>
-            <li>The invisble code needed to pass parameters to and from the subroutine</li>
+            <li>The invisible code needed to pass parameters to and from the subroutine</li>
             <li>Subroutines mandate to be invoked in a certain way and even more strict how you pass data to and from them</li>
             <li>In consequence of the last point, to test them independently you need a special testing
                 program to invoke them</li>
         </ul>
         Note: In some languages subroutines may be called functions, methods, etc... <br>
         <br>
-        With all this contraints Engineers found that planning was needed, planning an entire project became the norm since 
-        unexpected changes were/are hard to apply. <i><b>But interestingly at the time Enginners didn't know Humans are not good 
+        With all this constraints Engineers found that planning was needed, planning an entire project became the norm since 
+        unexpected changes were/are hard to apply. <i><b>But interestingly at the time Engineers didn't know Humans are not good 
         at predicting the future!</b></i> <b>(Include sarcasm here)</b> <br>
         <br>
-        All this characteristics were inherited by languages like FORTRAN and BASIC, consequently languages like C and to our present day languages. Most pain points for Engineers today are testing, refactoring and overall maintainability of programs;
-        With these pain points Software has been slowly decreasing quality with the increased overhead of said points. 
-        Also a lot technnical problems like UB (undefined behavior) and accidental complexity stem from the same root problem.<br>
+        All this characteristics were popularized by languages like FORTRAN and BASIC, consequently languages like C and to our present day languages. Today, engineers still face pain points in testing, refactoring, and maintainability; perceived complexity seems to increase even as tools improve<br>
         <br>
         Hopefully you already found a pattern here...<br><br><b><i>Data flow became the structural pillar of programs</i></b>
         <br><br>
-        Once the data flow became the structural pillar of programs, a shift happened how we reason about software. Programs  
+        Once data flow became the structural pillar of programs, a shift happened how we reason about software. Programs  
         started to be described of <i>how data moves between named spaces</i> instead of describing <i>transformations</i>.<br>
         Subroutines, and later functions, methods and procedures formalized this idea. Each unit of code became defined not by what it <i>does</i>, but by:
         <ul>
@@ -76,7 +74,7 @@
         </ul>
 
         <i><b>But Seaker, isn't that a good thing?</b></i> In a naive way it sounds good, but introduces rigidity at the very
-        core of the system! Behavior became secondary to data contracts!!
+        core of the system! Behavior became secondary to data contracts!
 
         <h3>Refactoring on a data-centric ideology</h3>
         Refactoring usually is described as "changing the internal structure of code without changing it's behavior". But under data flow centric models refactoring is, sadly, rarely internal.<br>
@@ -91,8 +89,8 @@
         The irony is incredible: <br>
         to make code "easier to maintain", we first make it <i>harder to change</i>. <br>
         <br>
-        As systems grow, the effort require to refactor grows non-linearly, because the data flow is global, explicit and rigid.
-        A local idea becames a system-wide negotiation.
+        As systems grow, the effort required to refactor grows non-linearly, because the data flow is global, explicit and rigid.
+        A local idea becomes a system-wide negotiation.
 
         <h3>The hidden cost of explicit arguments</h3>
         Explicit arguments truly feel precise and readable, but they encode decisions too early. <br>
@@ -108,8 +106,65 @@
         Testing suffers too again. A subroutine cannot be tested in isolation unless it is invoked exactly as prescribed.
         Behavior is inseparable from it's calling ritual.
 
+        <h4>A concrete example</h4>
+
+        In C:
+
+        <pre style="border: 1px solid white; max-width: 800px;">
+
+           #include <stdio.h> 
+
+           int compute(int x, int y, int z) {
+                return (x + y) * z;
+           }
+
+           int main() {
+                int a = 2, b = 3, c = 4;
+                int result = compute(a, b, c);
+                printf("%d\n", result); // 20
+                return 0;
+           }
+        </pre>
+        In Forth:
+        <pre style="border: 1px solid white; max-width: 800px;">
+
+            \ in Forth the "arguments" to words are comments, and optional
+            : compute ( x y z -- result )
+                + * 
+            ;
+
+            2 3 4 compute . \ prints 20 
+        </pre>
+
+        Now imagine you want to invert the arguments 'x' and 'y'.
+        <pre style="border: 1px solid white; max-width: 800px;">
+
+           int compute(int y, int x, int z) { // signature changed
+                return (x + y) * z;          
+           }
+        </pre>
+        Now all calls must be updated!
+        <pre style="border: 1px solid white; max-width: 800px;">
+
+            int result = compute(b, a, c)     // be careful to not break the logic!!
+        </pre>
+        If you forget <b>one call</b> or you don't <b>update a test</b> the program will break. <br>
+        <br>
+        In Forth all you need to is:
+        <pre style="border: 1px solid white; max-width: 800px;">
+
+            : compute ( x y z -- result )
+                >R swap R> + * 
+            ;
+        </pre>
+        And no external calls need to change! <br>
+        <br>
+        Even in this tiny example, the cost of changing a function signature whether swapping arguments, adding
+        a new parameter or even replacing a function entirely is obvious. <br>In real programs, with dozens of calls and 
+        dependencies, this cost multiplies quickly.
+
         <h3>A different perspective: transformation without identity</h3>
-        Languages like Forth take a different approach because there are no formal arguments, no signatures in a tradicional
+        Languages like Forth take a different approach because there are no formal arguments, no signatures in a traditional
         sense and no persistent identity attached to data. <br>
         Instead there is:
         <ul>
@@ -179,6 +234,13 @@
         Sometimes it creates the very errors we then spend decades trying to eliminate.<br>
     </section>
     <br>
-    <i>Seaker, 4 Feb 2026</i>
+    <i>Seaker, 4 Feb 2026</i><br>
+    <i>______, 5 Feb 2026 (Modified)</i>
+
+    <br><br>
+    <i>References:</i>
+    <ul>
+        <li>Thinking Forth (1984)</li>
+    </ul>
 </body>
 </html>
